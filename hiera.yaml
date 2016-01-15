@@ -1,0 +1,12 @@
+:hierarchy:
+  - "nodes/%{::clientcert}"
+  - "roles/_%{::server_role}"
+  - "virtual_%{::virtual}"
+  - "container/_%{::container}"
+  - "db_%{::rdbms}"
+  - common
+:backends:
+  - yaml
+:yaml:
+  :datadir: "/etc/puppetlabs/code/hieradata/%{::environment}"
+:merge_behavior: deeper
