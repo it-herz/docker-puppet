@@ -1,5 +1,6 @@
 #!/bin/bash
 echo "Run puppet server"
+chown puppet -R /etc/puppetlabs/puppet/ && chmod 777 -R /etc/puppetlabs/puppet/ssl/
 FQDN=`facter -p fqdn`
 echo "Changing hosts..."
 cp /etc/hosts /etc/hosts2

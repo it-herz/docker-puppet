@@ -1,7 +1,7 @@
 #!/bin/bash
 FQDN=`facter -p fqdn`
 export RESTART=0
-if [ ! -f /etc/puppetlabs/puppet/ssl/certs/$FQDN.pem ]
+if [ ! -f /etc/puppetlabs/puppetdb/ssl/public.pem ]
 then
   export RESTART=1
 #extract container FQDN and bind puppetdb
@@ -19,8 +19,8 @@ then
   /opt/puppetlabs/bin/puppetdb ssl-setup -f
 fi
 #and start puppetdb
-r10k deploy environment -v
-r10k deploy environment -pv
+#r10k deploy environment -v
+#r10k deploy environment -pv
 if [ "$RESTART" == "1" ]
 then
   export PUPPETSERVER_PID=`ps aux | grep puppet-server | grep -v runuser | grep -v grep | awk {'print $2'}`

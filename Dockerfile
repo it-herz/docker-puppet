@@ -4,7 +4,9 @@ MAINTAINER Dmitrii Zolotov <dzolotov@herzen.spb.ru>
 
 ENV DEBIAN_FRONTEND noninteractive
 
-RUN apt-get update && apt-get install -y wget && cd /tmp && \
+ADD sources.list /etc/apt/
+
+RUN echo "ru_RU.UTF-8 UTF-8" >>/etc/locale.gen && apt-get update && apt-get install -y locales && locale-gen && export LC_ALL=ru_RU.UTF-8 && apt-get install -y wget && cd /tmp && \
     wget https://apt.puppetlabs.com/puppetlabs-release-pc1-jessie.deb && dpkg -i *.deb && \
     apt-get update && apt-get install -y puppetserver puppetdb r10k git activemq python-setuptools puppetdb-termini mc at && \
     mkdir /usr/share/activemq/activemq-data && chmod 777 -R /usr/share/activemq/activemq-data && \
@@ -12,8 +14,12 @@ RUN apt-get update && apt-get install -y wget && cd /tmp && \
     sed -i "s/stomp1/localhost/g" /etc/puppetlabs/mcollective/client.cfg && sed -i "s/stomp1/localhost/g" /etc/puppetlabs/mcollective/server.cfg && \
     echo "Europe/Moscow" >/etc/timezone && dpkg-reconfigure tzdata && \
     mkdir /opt/puppetlabs/mcollective/plugins/mcollective && cd /opt/puppetlabs/mcollective/plugins/mcollective && \
-    git clone https://github.com/puppetlabs/mcollective-puppet-agent . && rm -rf /etc/puppetlabs/code/environments && rm -rf /etc/puppetlabs/code/hieradata && \
+    git clone https://github.com/puppetlabs/mcollective-puppet-agent . && \
     mkdir -p /var/cache/r10k && ln -s /opt/puppetlabs/bin/puppet /usr/bin && ln -s /opt/puppetlabs/bin/mco /usr/bin && ln -s /opt/puppetlabs/bin/facter /usr/bin && rm /etc/puppetlabs/puppet/puppet.conf && rm /etc/puppetlabs/puppetdb/conf.d/jetty.ini
+
+ENV LANG "ru_RU.UTF-8"
+ENV LC_ALL "ru_RU.UTF-8"
+ENV LANGUAGE "ru_RU.UTF-8"
 
 ADD hiera.yaml /etc/puppetlabs/code/
 ADD r10k.agent.rb /opt/puppetlabs/mcollective/plugins/mcollective/agent/r10k.rb
@@ -22,10 +28,7 @@ ADD r10k.application.rb /opt/puppetlabs/mcollective/plugins/mcollective/applicat
 ADD puppet.conf /etc/puppetlabs/puppet/
 ADD puppetdb.conf /etc/puppetlabs/puppet/
 
-RUN mkdir /var/log/supervisor/
-RUN /usr/bin/easy_install supervisor
-RUN /usr/bin/easy_install supervisor-stdout
-RUN /usr/bin/easy_install supervisor-logging
+RUN mkdir /var/log/supervisor/ && /usr/bin/easy_install supervisor && /usr/bin/easy_install supervisor-stdout && /usr/bin/easy_install supervisor-logging
 ADD run_puppet_db.sh /opt/puppetlabs/
 ADD run_puppet.sh /opt/puppetlabs/
 ADD supervisord.conf /etc/supervisord.conf
