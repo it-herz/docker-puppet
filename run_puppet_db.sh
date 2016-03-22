@@ -4,6 +4,15 @@ export RESTART=0
 if [ ! -f /etc/puppetlabs/puppetdb/ssl/public.pem ]
 then
   export RESTART=1
+
+#apply extension
+
+#create user and database (with utf8) support
+  sudo -u postgres createuser -DSR puppetdb -w
+  sudo -u postgres createdb -E UTF8 --template=template0 -O puppetdb puppetdb
+
+  sudo -u postgres psql --dbname=puppetdb -c "CREATE EXTENSION pg_trgm;"
+
 #extract container FQDN and bind puppetdb
   sed -i "s/FQDN/$FQDN/g" /etc/puppetlabs/puppet/puppetdb.conf
 #change Java Heap Size
@@ -21,9 +30,9 @@ fi
 #and start puppetdb
 #r10k deploy environment -v
 #r10k deploy environment -pv
-if [ "$RESTART" == "1" ]
-then
-  export PUPPETSERVER_PID=`ps aux | grep puppet-server | grep -v runuser | grep -v grep | awk {'print $2'}`
-  echo "echo Goodbye, puppetserver && kill -9 $PUPPETSERVER_PID" | at now + 2 minutes
-fi
+#if [ "$RESTART" == "1" ]
+#then
+#  export PUPPETSERVER_PID=`ps aux | grep puppet-server | grep -v runuser | grep -v grep | awk {'print $2'}`
+#  echo "echo Goodbye, puppetserver && kill -9 $PUPPETSERVER_PID" | at now + 2 minutes
+#fi
 /opt/puppetlabs/bin/puppetdb foreground
