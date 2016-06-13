@@ -1,6 +1,9 @@
 #!/bin/bash
 FQDN=`facter -p fqdn`
 export RESTART=0
+
+mkdir -p /var/run/postgresql/9.4-main.pg_stat_tmp 
+chmod 777 /var/run/postgresql/9.4-main.pg_stat_tmp
 if [ ! -f /etc/puppetlabs/puppetdb/ssl/public.pem ]
 then
   export RESTART=1
