@@ -51,7 +51,7 @@ ADD log4j.properties /etc/activemq/instances-enabled/mco/
 ADD jetty.ini /etc/puppetlabs/puppetdb/conf.d
 ADD database.ini /etc/puppetlabs/puppetdb/conf.d
 
-VOLUME ["/etc/puppetlabs/puppet/ssl","/etc/puppetlabs/code/environments","/etc/puppetlabs/code/hieradata","/etc/r10k.yaml"]
+VOLUME ["/etc/puppetlabs/puppet/ssl","/etc/puppetlabs/code/environments","/etc/puppetlabs/code/hieradata"]
 
 EXPOSE 8140 6163 8080 8081 6379
 
