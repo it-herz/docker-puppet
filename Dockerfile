@@ -59,6 +59,6 @@ ADD database.ini /etc/puppetlabs/puppetdb/conf.d
 
 VOLUME ["/etc/puppetlabs/puppet/ssl","/etc/puppetlabs/code/environments","/etc/puppetlabs/code/hieradata"]
 
-EXPOSE 8140 6163 8080 8081 6379 4500
+EXPOSE 8140 6163 8080 8081 6379 4570
 
 CMD ["supervisord","-n","-c","/etc/supervisord.conf"]
