@@ -24,7 +24,13 @@ RUN echo "ru_RU.UTF-8 UTF-8" >>/etc/locale.gen && apt-get update && apt-get inst
     mkdir -p /var/cache/r10k && ln -s /opt/puppetlabs/bin/puppet /usr/bin && ln -s /opt/puppetlabs/bin/mco /usr/bin && ln -s /opt/puppetlabs/bin/facter /usr/bin && rm /etc/puppetlabs/puppet/puppet.conf && rm /etc/puppetlabs/puppetdb/conf.d/jetty.ini && \
     cd /root && git clone https://github.com/ajf8/mcomaster && cd mcomaster && mkdir -p /opt/puppetlabs/mcollective/plugins/mcollective/registration && cp mcollective/registration/meta.rb /opt/puppetlabs/mcollective/plugins/mcollective/registration/ && \
     mkdir -p /opt/puppetlabs/mcollective/plugins/mcollective/agent && cp mcollective/agent/* /opt/puppetlabs/mcollective/plugins/mcollective/agent && \
-    mkdir -p /opt/puppetlabs/mcollective/plugins/mcollective/discovery && cp mcollective/discovery/* /opt/puppetlabs/mcollective/plugins/mcollective/discovery
+    mkdir -p /opt/puppetlabs/mcollective/plugins/mcollective/discovery && cp mcollective/discovery/* /opt/puppetlabs/mcollective/plugins/mcollective/discovery && \
+    cd /root && git clone https://github.com/pzim/reaktor && cd reaktor && bundle install && gem update --no-document && mkdir -p /data/apps/sinatra/reaktor && \
+    sed -i 's/localhost/0.0.0.0/g' /root/reaktor/reaktor-cfg.yml
+
+ENV REAKTOR_PUPPET_MASTERS_FILE="/root/masters.txt"
+
+ENV PUPPETFILE_GIT_URL="git@github.com:example.org/puppetfile.git"
 
 ENV LANG "ru_RU.UTF-8"
 ENV LC_ALL "ru_RU.UTF-8"
@@ -53,6 +59,6 @@ ADD database.ini /etc/puppetlabs/puppetdb/conf.d
 
 VOLUME ["/etc/puppetlabs/puppet/ssl","/etc/puppetlabs/code/environments","/etc/puppetlabs/code/hieradata"]
 
-EXPOSE 8140 6163 8080 8081 6379
+EXPOSE 8140 6163 8080 8081 6379 4500
 
 CMD ["supervisord","-n","-c","/etc/supervisord.conf"]
