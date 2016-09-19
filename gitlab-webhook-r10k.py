@@ -76,7 +76,7 @@ class RequestHandler(BaseHTTPServer.BaseHTTPRequestHandler):
 
         logger.info("Running command: %s" % command)
         stream = os.popen(command)
-        logger.info("Running command: %s" %s mco_command)
+        logger.info("Running command: %s" % mco_command)
         os.system(mco_command)
 
         self.ok_response()
