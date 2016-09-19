@@ -27,13 +27,12 @@ RUN echo "ru_RU.UTF-8 UTF-8" >>/etc/locale.gen && apt-get update && apt-get inst
     mkdir -p /opt/puppetlabs/mcollective/plugins/mcollective/discovery && cp mcollective/discovery/* /opt/puppetlabs/mcollective/plugins/mcollective/discovery && \
     mkdir -p /var/lib/puppet/gitlab-webhook && cd /var/lib/puppet/gitlab-webhook && wget https://raw.githubusercontent.com/clauded/PuppetForeman/master/gitlab-webhook-r10k.py && \
     chmod +x gitlab-webhook-r10k.py && mkdir -p /var/log/puppet
-    
-    cd /root && git clone https://github.com/pzim/reaktor && cd reaktor && bundle install && gem update --no-document && mkdir -p /data/apps/sinatra/reaktor && \
-    sed -i 's/localhost/0.0.0.0/g' /root/reaktor/reaktor-cfg.yml
+#    cd /root && git clone https://github.com/pzim/reaktor && cd reaktor && bundle install && gem update --no-document && mkdir -p /data/apps/sinatra/reaktor && \
+#    sed -i 's/localhost/0.0.0.0/g' /root/reaktor/reaktor-cfg.yml
 
-ENV REAKTOR_PUPPET_MASTERS_FILE="/root/masters.txt"
+#ENV REAKTOR_PUPPET_MASTERS_FILE="/root/masters.txt"
 
-ENV PUPPETFILE_GIT_URL="git@github.com:example.org/puppetfile.git"
+#ENV PUPPETFILE_GIT_URL="git@github.com:example.org/puppetfile.git"
 
 ENV LANG "ru_RU.UTF-8"
 ENV LC_ALL "ru_RU.UTF-8"
