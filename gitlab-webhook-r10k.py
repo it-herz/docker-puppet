@@ -47,7 +47,7 @@ import logging
 import logging.handlers
 
 command         = '/usr/bin/r10k deploy environment -v'
-mco_command     = '/usr/bin/mco puppet runall 5'
+mco_command     = '/usr/bin/mco puppet runall 30'
 logger_file     = '/var/log/gitlab-webhook-r10k-deployer.log'
 logger_max_size = 25165824         # 24 MB
 logger_level    = logging.DEBUG    # DEBUG is quite verbose
@@ -76,7 +76,8 @@ class RequestHandler(BaseHTTPServer.BaseHTTPRequestHandler):
 
         logger.info("Running command: %s" % command)
         stream = os.popen(command)
-        stream = os.popen(mco_command)
+        logger.info("Running command: %s" %s mco_command)
+        os.system(mco_command)
 
         self.ok_response()
         logger.info("Finished processing POST request.")
