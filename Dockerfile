@@ -25,6 +25,9 @@ RUN echo "ru_RU.UTF-8 UTF-8" >>/etc/locale.gen && apt-get update && apt-get inst
     cd /root && git clone https://github.com/ajf8/mcomaster && cd mcomaster && mkdir -p /opt/puppetlabs/mcollective/plugins/mcollective/registration && cp mcollective/registration/meta.rb /opt/puppetlabs/mcollective/plugins/mcollective/registration/ && \
     mkdir -p /opt/puppetlabs/mcollective/plugins/mcollective/agent && cp mcollective/agent/* /opt/puppetlabs/mcollective/plugins/mcollective/agent && \
     mkdir -p /opt/puppetlabs/mcollective/plugins/mcollective/discovery && cp mcollective/discovery/* /opt/puppetlabs/mcollective/plugins/mcollective/discovery && \
+    mkdir -p /var/lib/puppet/gitlab-webhook && cd /var/lib/puppet/gitlab-webhook && wget https://raw.githubusercontent.com/clauded/PuppetForeman/master/gitlab-webhook-r10k.py && \
+    chmod +x gitlab-webhook-r10k.py && mkdir -p /var/log/puppet
+    
     cd /root && git clone https://github.com/pzim/reaktor && cd reaktor && bundle install && gem update --no-document && mkdir -p /data/apps/sinatra/reaktor && \
     sed -i 's/localhost/0.0.0.0/g' /root/reaktor/reaktor-cfg.yml
 
@@ -59,6 +62,6 @@ ADD database.ini /etc/puppetlabs/puppetdb/conf.d
 
 VOLUME ["/etc/puppetlabs/puppet/ssl","/etc/puppetlabs/code/environments","/etc/puppetlabs/code/hieradata"]
 
-EXPOSE 8140 6163 8080 8081 6379 4570
+EXPOSE 8140 6163 8080 8081 6379 4570 8000
 
 CMD ["supervisord","-n","-c","/etc/supervisord.conf"]
