@@ -46,7 +46,7 @@ import shutil
 import logging
 import logging.handlers
 
-command         = '/usr/bin/r10k deploy environment -pv'
+command         = '/usr/bin/r10k deploy environment -v'
 mco_command     = '/usr/bin/mco puppet runall 5'
 logger_file     = '/var/log/gitlab-webhook-r10k-deployer.log'
 logger_max_size = 25165824         # 24 MB
