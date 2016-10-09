@@ -4,11 +4,11 @@
 #
 # A simple webhook service for running r10k on a puppet server.
 #
-# This will run the process and listen on port 8000 for POST requests from Gitlab. 
+# This will run the process and listen on port 7000 for POST requests from Gitlab. 
 # When it receives a request, it will run r10k on the puppet master server.
 #
 # Usage :
-# ./gitlab-webhook-r10k.py --port [x.x.x.x:]8000
+# ./gitlab-webhook-r10k.py --port [x.x.x.x:]7000
 #
 # Installation :
 #  create directory /var/lib/puppet/gitlab-webhook
@@ -95,7 +95,7 @@ class RequestHandler(BaseHTTPServer.BaseHTTPRequestHandler):
        
 def get_arguments():
     parser = argparse.ArgumentParser(description=('Run r10k on Gitlab webhook request.'))
-    parser.add_argument('-p', '--port', default=8000, metavar='8000', help='server address (host:port). host is optional.')
+    parser.add_argument('-p', '--port', default=7000, metavar='7000', help='server address (host:port). host is optional.')
     return parser.parse_args()
 
 def main():
