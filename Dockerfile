@@ -1,4 +1,4 @@
-FROM debian:jessie
+FROM debian:stretch
 
 MAINTAINER Dmitrii Zolotov <dzolotov@herzen.spb.ru>
 
@@ -7,7 +7,7 @@ ENV DEBIAN_FRONTEND noninteractive
 ADD sources.list /etc/apt/
 
 RUN echo "ru_RU.UTF-8 UTF-8" >>/etc/locale.gen && apt-get update && apt-get install -y make build-essential locales && locale-gen && export LC_ALL=ru_RU.UTF-8 && apt-get install -y wget && cd /tmp && \
-    wget https://apt.puppetlabs.com/puppetlabs-release-pc1-jessie.deb && dpkg -i *.deb && \
+    wget https://apt.puppetlabs.com/puppetlabs-release-pc1-stretch.deb && dpkg -i *.deb && \
     apt-get update && apt-get install -f && apt-get install -y libsqlite3-dev g++ ruby ruby-dev sudo postgresql postgresql-contrib git git-core net-tools perl perl-base liberror-perl puppetserver puppetdb r10k activemq python-setuptools puppetdb-termini mc at && \
     mkdir /usr/share/activemq/activemq-data && chmod 777 -R /usr/share/activemq/activemq-data && \
     mkdir /var/run/activemq && chown activemq /var/run/activemq && chmod 755 -R /var/run/activemq && chown activemq /var/lib/activemq/data/ && chmod 755 /var/lib/activemq/data/ && \
